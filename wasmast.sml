@@ -9,7 +9,7 @@ functor WasmAstFun(Pos : sig
   type span = Pos.pos * Pos.pos
 
   (* Memory *)
-  type address = LargeInt.int
+  type address = int
   type size = address
   type offset = address
 
