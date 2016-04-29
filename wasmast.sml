@@ -247,6 +247,32 @@ functor WasmAstFun(Pos : sig
                   exports : export list,
                   table : var list,
                   span : span }
+
+  local
+    val tab = 4
+    fun emitModule p indent ({memory, types, funcs, start, imports, exports, table, span} : module) =
+          let
+            val indent' = indent + tab
+          in
+            p indent "(module";
+            p indent ")"
+          end
+  in
+    fun emit p (module : module) =
+          let
+            fun p' indent s =
+                  let
+                    val space = Word8.fromInt (Char.ord #" ")
+                    fun returnSpace _ = space
+                    val bytes = Word8Vector.tabulate (indent, returnSpace)
+                    val spaces = Byte.bytesToString bytes
+                  in
+                    p (spaces ^ s ^ "\n")
+                  end
+          in
+            emitModule p' 0 module
+          end
+  end
 end
 
 structure WasmAstEmptyPos = WasmAstFun(struct
